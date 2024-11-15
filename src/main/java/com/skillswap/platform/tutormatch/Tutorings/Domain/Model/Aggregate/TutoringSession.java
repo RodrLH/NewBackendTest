@@ -21,7 +21,7 @@ import java.util.stream.IntStream;
 public class TutoringSession extends AuditableAbstractAggregateRoot<TutoringSession> {
 
     @Column(name = "title")
-    private String courseName;
+    private String title;
 
     private String description;
     private Double price;
@@ -36,6 +36,8 @@ public class TutoringSession extends AuditableAbstractAggregateRoot<TutoringSess
     private List<DailySchedule> times;
 
     private String image;
+
+    private String whatTheyWillLearn;
 
     /**
      * The ID of the tutor associated with this tutoring session.
@@ -65,15 +67,16 @@ public class TutoringSession extends AuditableAbstractAggregateRoot<TutoringSess
      * create a new tutoring session.
      */
     public TutoringSession(CreateTutoringSessionCommand command,Course course) {
-        this.courseName = course.getName();
+        this.title = course.getName();
         this.description = command.description();
         this.price = command.price();
         this.times = command.times();
         this.image = command.image();
+        this.whatTheyWillLearn = command.whatTheyWillLearn();
         this.tutorId = command.tutorId();
         this.course = course;
         this.cycle = course.getCycle();
-        if (!this.courseName.equals(course.getName())) {
+        if (!this.title.equals(course.getName())) {
             throw new IllegalArgumentException("Course name does not match the courseId provided.");
         }
 
@@ -94,6 +97,7 @@ public class TutoringSession extends AuditableAbstractAggregateRoot<TutoringSess
         this.description = command.description();
         this.price = command.price();
         this.image = command.image();
+        this.whatTheyWillLearn = command.whatTheyWillLearn();
     }
 
 }

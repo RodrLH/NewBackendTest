@@ -13,7 +13,7 @@ package com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command;
  * @param image the tutoring session image.
  *              Cannot be null or blank
  */
-public record UpdateTutoringCommand(Long tutoringSessionId, String description, Double price, String image) {
+public record UpdateTutoringCommand(Long tutoringSessionId, String description, Double price, String image, String whatTheyWillLearn) {
 
     /**
      * Constructor

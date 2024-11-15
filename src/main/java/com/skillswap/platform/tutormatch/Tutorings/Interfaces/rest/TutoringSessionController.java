@@ -67,7 +67,7 @@ public class TutoringSessionController {
                             schema = @Schema(implementation = CreateTutoringSessionResource.class),
                             examples = @ExampleObject(value = """
                                     {
-                                      "courseName": "string",
+                                      "title": "string",
                                       "description": "string",
                                       "price": 0,
                                       "times": [
@@ -80,6 +80,7 @@ public class TutoringSessionController {
                                         {"dayOfWeek": 6, "availableHours": []}
                                       ],
                                       "image": "string",
+                                      "whatTheyWillLearn": "string",
                                       "tutorId": 0,
                                       "courseId": 0
                                     }""")
