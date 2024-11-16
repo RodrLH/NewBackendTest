@@ -1,11 +1,9 @@
 package com.skillswap.platform.tutormatch.Users.Interfaces.rest;
 
-import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetAllUsersQuery;
-import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserByEmailPassword;
-import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserById;
-import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserByRole;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.*;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.EmailAddress;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.Password;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.Role;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.RoleType;
 import com.skillswap.platform.tutormatch.Users.Domain.Services.UserCommandService;
 import com.skillswap.platform.tutormatch.Users.Domain.Services.UserQueryService;
@@ -126,7 +124,9 @@ public class UsersController {
     @GetMapping("/users")
     public ResponseEntity<?> getUsers(
             @RequestParam(required = false) String email,
-            @RequestParam(required = false) String password) {
+            @RequestParam(required = false) String password,
+            @RequestParam(required = false) Long tutorId,
+            @RequestParam(required = false) RoleType roleType) {
 
         if (email != null && !email.isEmpty() && password != null && !password.isEmpty()) {
             var getUserByEmailPasswordQuery = new GetUserByEmailPassword(new EmailAddress(email), new Password(password));
@@ -136,17 +136,39 @@ public class UsersController {
             }
             var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
             return ResponseEntity.ok(userResource);
-        } else if (email == null && password == null) {
+        }
+        else if (email != null && !email.isEmpty()) {
+            var getTutorByEmailQuery = new GetTutorByEmail(new EmailAddress(email));
+            var tutor = userQueryService.handle(getTutorByEmailQuery);
+            if (tutor.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            var tutorResource = UserResourceFromEntityAssembler.toResourceFromEntity(tutor.get());
+            return ResponseEntity.ok(tutorResource);
+        }
+        else if (tutorId != null && roleType != null) {
+            var getTutorByIdRoleQuery = new GetTutorByIdRole(tutorId, roleType);
+            var tutor = userQueryService.handle(getTutorByIdRoleQuery);
+            if (tutor.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            var tutorResource = UserResourceFromEntityAssembler.toResourceFromEntity(tutor.get());
+            return ResponseEntity.ok(tutorResource);
+        }
+        else if (email == null && password == null) {
             var getAllUsersQuery = new GetAllUsersQuery();
             var users = userQueryService.handle(getAllUsersQuery);
             var userResources = users.stream()
                     .map(UserResourceFromEntityAssembler::toResourceFromEntity)
                     .collect(Collectors.toList());
             return ResponseEntity.ok(userResources);
-        } else {
+        }
+        else {
             return ResponseEntity.badRequest().body("Both email and password are required to search for a specific user.");
         }
     }
+
+
 
     /**
      * Updates a user.

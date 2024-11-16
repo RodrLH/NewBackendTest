@@ -27,6 +27,15 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmailAndPassword(EmailAddress email, Password password);
 
     /**
+     * Retrieves a user by their email address.
+     *
+     * @param email the {@link EmailAddress} of the user to be retrieved
+     * @return an {@link Optional} containing the {@link User} if found,
+     * or empty if no user matches the email
+     */
+    Optional<User> findByEmail(EmailAddress email);
+
+    /**
      * Retrieves a list of users that have the specified role.
      *
      * @param roleType the {@link RoleType} to filter users by
@@ -51,4 +60,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     @Query("SELECT MAX(u.tutorId) FROM User u")
     Optional<Long> findMaxTutorId();
+
+    /**
+     * Retrieves a user by their tutor ID.
+     *
+     * @param tutorId the tutor ID of the user to be retrieved
+     * @return an {@link Optional} containing the {@link User} if found,
+     * or empty if no user matches the tutor ID
+     */
+    Optional<User> findByTutorIdAndRole_RoleType(Long tutorId, RoleType roleType);
 }
