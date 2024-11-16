@@ -39,5 +39,15 @@ public class CourseQueryServiceImpl implements CourseQueryService {
         return courseRepository.findAll();
     }
 
+    /**
+     * Retrieves a course by its ID.
+     * @param query The query object containing the course ID.
+     * @return The course with the specified ID, if found.
+     */
+    @Override
+    public List<Course> handle(GetCourseByCycle query){
+        return courseRepository.findByCycle(query.cycle());
+    }
+
 
 }

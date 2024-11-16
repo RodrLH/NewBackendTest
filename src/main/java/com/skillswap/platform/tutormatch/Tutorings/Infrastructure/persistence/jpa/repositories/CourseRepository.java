@@ -23,4 +23,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
      * @return An Optional containing the found course, or an empty Optional if not found.
      */
     Optional<Course> findById(Long id);
+
+    List<Course> findByCycle(int cycle);
 }
