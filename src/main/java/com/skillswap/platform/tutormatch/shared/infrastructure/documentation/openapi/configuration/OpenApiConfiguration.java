@@ -25,7 +25,7 @@ public class OpenApiConfiguration {
                         .description("SkillSwapINC TutorMatch wiki Documentation")
                         .url("https://github.com/SkillSwapINC/TutorMatch-Report"))
                         .addServersItem(new Server()
-                            .url("https://newbackendtest-production.up.railway.app")
+                            .url("https://magnificent-vision-production.up.railway.app")
                             .description("Railway Production Server"));
 
         // Add security scheme
