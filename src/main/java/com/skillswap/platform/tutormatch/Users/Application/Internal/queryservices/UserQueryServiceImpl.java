@@ -3,7 +3,7 @@ package com.skillswap.platform.tutormatch.Users.Application.Internal.queryservic
 
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Aggregates.User;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetAllUsersQuery;
-import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserByEmail;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserByEmailPassword;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserById;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Queries.GetUserByRole;
 import com.skillswap.platform.tutormatch.Users.Domain.Services.UserQueryService;
@@ -31,8 +31,8 @@ public class UserQueryServiceImpl implements UserQueryService {
      * @return an {@code Optional<User>} with the user if found, or an empty optional if not found.
      */
     @Override
-    public Optional<User> handle(GetUserByEmail query){
-        return userRepository.findByEmail(query.emailAddress());
+    public Optional<User> handle(GetUserByEmailPassword query){
+        return userRepository.findByEmailAndPassword(query.emailAddress(), query.password());
     }
 
     /**

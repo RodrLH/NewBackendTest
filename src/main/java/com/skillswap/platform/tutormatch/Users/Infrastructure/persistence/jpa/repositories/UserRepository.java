@@ -2,6 +2,7 @@ package com.skillswap.platform.tutormatch.Users.Infrastructure.persistence.jpa.r
 
 import com.skillswap.platform.tutormatch.Users.Domain.Model.Aggregates.User;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.EmailAddress;
+import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.Password;
 import com.skillswap.platform.tutormatch.Users.Domain.Model.ValueObjects.RoleType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,7 +24,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return an {@link Optional} containing the {@link User} if found,
      * or empty if no user matches the email
      */
-    Optional<User> findByEmail(EmailAddress email);
+    Optional<User> findByEmailAndPassword(EmailAddress email, Password password);
 
     /**
      * Retrieves a list of users that have the specified role.
