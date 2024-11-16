@@ -35,6 +35,7 @@ public class TutoringSession extends AuditableAbstractAggregateRoot<TutoringSess
     @JoinColumn(name = "tutoring_session_id")
     private List<DailySchedule> times;
 
+    @Lob
     private String image;
 
     private String whatTheyWillLearn;

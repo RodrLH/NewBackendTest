@@ -3,6 +3,7 @@ package com.skillswap.platform.tutormatch.Tutorings.Interfaces.rest;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Command.DeleteTutoringCommand;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Queries.GetAllTutoringsByTutorId;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Queries.GetAllTutoringsQuery;
+import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Queries.GetTutoringByCourseId;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Model.Queries.GetTutoringById;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Services.TutoringSessionCommandService;
 import com.skillswap.platform.tutormatch.Tutorings.Domain.Services.TutoringSessionQueryService;
@@ -110,23 +111,35 @@ public class TutoringSessionController {
     }
 
     @GetMapping("/tutorings")
-    public ResponseEntity<List<TutoringSessionResource>> getTutorings(@RequestParam(required = false) Long tutorId) {
+    public ResponseEntity<List<TutoringSessionResource>> getTutorings(@RequestParam(required = false) Long tutorId,
+                                                                      @RequestParam(required = false) Long courseId) {
         List<TutoringSessionResource> tutoringResources;
+
         if (tutorId != null) {
             var getTutoringByTutorIdQuery = new GetAllTutoringsByTutorId(tutorId);
             var tutoring = tutoringSessionQueryService.handle(getTutoringByTutorIdQuery);
             tutoringResources = tutoring.stream()
                     .map(TutoringSessionResourceFromEntityAssembler::toResourceFromEntity)
                     .collect(Collectors.toList());
-        } else {
+        }
+        else if (courseId != null) {
+            var getTutoringByCourseIdQuery = new GetTutoringByCourseId(courseId);
+            var tutoring = tutoringSessionQueryService.handle(getTutoringByCourseIdQuery);
+            tutoringResources = tutoring.stream()
+                    .map(TutoringSessionResourceFromEntityAssembler::toResourceFromEntity)
+                    .collect(Collectors.toList());
+        }
+        else {
             var getAllTutoringsQuery = new GetAllTutoringsQuery();
             var tutoring = tutoringSessionQueryService.handle(getAllTutoringsQuery);
             tutoringResources = tutoring.stream()
                     .map(TutoringSessionResourceFromEntityAssembler::toResourceFromEntity)
                     .collect(Collectors.toList());
         }
+
         return new ResponseEntity<>(tutoringResources, HttpStatus.OK);
     }
+
 
 
 
