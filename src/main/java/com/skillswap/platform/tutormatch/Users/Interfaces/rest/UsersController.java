@@ -61,7 +61,7 @@ public class UsersController {
             @ApiResponse(responseCode = "201", description = "User created"),
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
-    @PostMapping
+    @PostMapping("/users")
     public ResponseEntity<UserResource> createUser(@RequestBody CreateUserResource resource) {
         var createUserCommand = CreateUserCommandFromResourceAssembler.toCommandFromResource(resource);
         var user = userCommandService.handle(createUserCommand);
