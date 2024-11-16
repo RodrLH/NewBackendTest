@@ -23,10 +23,10 @@ public class OpenApiConfiguration {
                                 .url("https://springdoc.org")))
                 .externalDocs(new ExternalDocumentation()
                         .description("SkillSwapINC TutorMatch wiki Documentation")
-                        .url("https://github.com/SkillSwapINC/TutorMatch-Report"));
-                        /*.addServersItem(new Server()
+                        .url("https://github.com/SkillSwapINC/TutorMatch-Report"))
+                        .addServersItem(new Server()
                             .url("https://newbackendtest-production.up.railway.app")
-                            .description("Railway Production Server"));*/
+                            .description("Railway Production Server"));
 
         // Add security scheme
 
