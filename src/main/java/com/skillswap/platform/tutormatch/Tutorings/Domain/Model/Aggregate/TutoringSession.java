@@ -99,6 +99,8 @@ public class TutoringSession extends AuditableAbstractAggregateRoot<TutoringSess
         this.price = command.price();
         this.image = command.image();
         this.whatTheyWillLearn = command.whatTheyWillLearn();
+        this.times.clear();
+        this.times.addAll(command.times());
     }
 
 }
